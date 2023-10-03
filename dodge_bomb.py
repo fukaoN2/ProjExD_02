@@ -39,14 +39,14 @@ def main():
 
     #こうかとん画像向き別辞書　修正なし
     lib2 = {
-        (+5, 0): (pg.transform.flip(kk_img, True, False), 0), # 修正必要なし
-        (+5, -5): (pg.transform.flip(kk_img, True, False), +45), # 修正必要なし
+        (5, 0): (pg.transform.flip(kk_img, True, False), 0), # 修正必要なし
+        (5, -5): (pg.transform.flip(kk_img, True, False), +45), # 修正必要なし
         (0, -5): (pg.transform.flip(kk_img, True, False), +90),# 修正必要なし
         (-5, -5): (kk_img, -45), # 修正必要なし
         (-5, 0): (kk_img, 0), # 修正必要なし
-        (-5, +5): (kk_img, +45), # 修正必要なし
-        (0, +5): (pg.transform.flip(kk_img, True, False), -90), # 修正必要なし
-        (+5, +5): (pg.transform.flip(kk_img, True, False), -45), # 修正必要なし
+        (-5, 5): (kk_img, +45), # 修正必要なし
+        (0, 5): (pg.transform.flip(kk_img, True, False), -90), # 修正必要なし
+        (+5, 5): (pg.transform.flip(kk_img, True, False), -45), # 修正必要なし
     }
 
     """爆弾"""
