@@ -36,7 +36,7 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400) #こうかとんの初期座標を設定
 
-    #こうかとん画像向き別辞書   
+    #こうかとん画像向き別辞書
     lib2 = {
         (+5, 0): (pg.transform.flip(kk_img, True, False), 0),
         (+5, -5): (pg.transform.flip(kk_img, True, False), +45),
@@ -56,11 +56,10 @@ def main():
     bom_rct = bom.get_rect()
     bom_rct.center = x, y
     vx, vy = +5, +5
-
     clock = pg.time.Clock()
     tmr = 0
-    
-    accs = [a for a in range(1, 11)]
+
+    accs = [a for a in range(1, 11)] #追加機能2 加速
     bom_imgs = []
     for r in range(1, 11):
         bom_img = pg.Surface((20*r, 20*r), pg.SRCALPHA)
@@ -105,8 +104,8 @@ def main():
             vx *= -1
         if not tate: #練習4 縦方向にはみ出たら
             vy *= -1
-        
-        dis = (kk_rct.centerx-bom_rct.centerx, kk_rct.centery-bom_rct.centery)
+        """追いかけ機能"""
+        dis = (kk_rct.centerx-bom_rct.centerx, kk_rct.centery-bom_rct.centery) #追加機能4 距離
         dis2 = math.sqrt(dis[0]**2 + dis[1]**2)
         if dis2 < 500:
             avx, avy = vx, vy
