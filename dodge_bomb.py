@@ -37,7 +37,7 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400) #こうかとんの初期座標を設定
 
-    #こうかとん画像向き別辞書
+    #こうかとん画像向き別辞書　修正なし
     lib2 = {
         (+5, 0): (pg.transform.flip(kk_img, True, False), 0),
         (+5, -5): (pg.transform.flip(kk_img, True, False), +45),
