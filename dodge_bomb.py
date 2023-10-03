@@ -12,6 +12,19 @@ lib = {
     pg.K_RIGHT: (+5, 0),
 }
 
+def check_bound(obj_rct: pg.rect):
+    """
+    引数　こうかとんRectか爆弾Rect
+    戻り値：タプル（横方向判定効果、縦方向判定効果）
+    画面内ならTrue、画面外ならFalse
+    """
+    yoko, tate = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right: #横方向判定
+        yoko = False
+    if obj_rct.top < 0 or HEIGHT < obj_rct.bottom: #縦方向判定
+        tate = False
+    return yoko, tate
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -47,10 +60,17 @@ def main():
                 sum_mv[0] += mv[0] #練習3 横方向の合計移動量
                 sum_mv[1] += mv[1] #練習3 縦方向の合計移動量
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) #練習3 移動させる
+        if check_bound(kk_rct) != (True, True): #練習4 はみだし判定
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct) #練習3 表示させる
 
         """爆弾"""
         bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
+        yoko, tate = check_bound(bom_rct)
+        if not yoko: #練習4 横方向にはみ出たら
+            vx *= -1
+        if not tate: #練習4 縦方向にはみ出たら
+            vy *= -1
         screen.blit(bom, bom_rct) #練習1 Rectを使用してblitする
         pg.display.update()
         tmr += 1
