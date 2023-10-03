@@ -20,6 +20,7 @@ def main():
     x, y = randint(0, WIDTH), randint(0, HEIGHT)
     bom_rct = bom.get_rect()
     bom_rct.center = x, y
+    vx, vy = +5, +5
 
     clock = pg.time.Clock()
     tmr = 0
@@ -30,10 +31,11 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        screen.blit(bom, bom_rct) #練習1 Rectを使用してblit
+        bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
+        screen.blit(bom, bom_rct) #練習1 Rectを使用してblitする
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
