@@ -30,6 +30,7 @@ def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
+    
     """こうかとん"""
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
@@ -56,7 +57,9 @@ def main():
     bom_rct = bom.get_rect()
     bom_rct.center = x, y
     vx, vy = +5, +5
+
     clock = pg.time.Clock()
+    font = pg.font.Font(None, 80) #追加機能 時間表示
     tmr = 0
 
     accs = [a for a in range(1, 11)] #追加機能2 加速
@@ -71,10 +74,8 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-            
-        if kk_rct.colliderect(bom_rct):
-            print("ゲームオーバー")
-            return
+
+        txt = font.render(str(tmr), True, (0, 100, 100)) #追加機能 時間表示
 
         screen.blit(bg_img, [0, 0])
 
@@ -113,12 +114,18 @@ def main():
             vctr = (dis[0] / dis2* math.sqrt(50), dis[1] / dis2 * math.sqrt(50))
             avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
             vx, vy = vctr[0], vctr[1]
-        
+
         bom_img = bom_imgs[min(tmr//500, 9)]
         # bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
         bom_rct.move_ip(avx, avy)
         # screen.blit(bom, bom_rct) #練習1 Rectを使用してblitする
         screen.blit(bom_img, [bom_rct.x, bom_rct.y])
+
+        if kk_rct.colliderect(bom_rct):
+            print("ゲームオーバー")
+            return
+
+        screen.blit(txt, [200, 200]) #追加機能 時間表示
         pg.display.update()
         tmr += 1
         clock.tick(50)
