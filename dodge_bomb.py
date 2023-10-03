@@ -1,6 +1,7 @@
 from random import randint
 import sys
 import pygame as pg
+import math
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -104,7 +105,16 @@ def main():
             vx *= -1
         if not tate: #練習4 縦方向にはみ出たら
             vy *= -1
-        avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+        
+        dis = (kk_rct.centerx-bom_rct.centerx, kk_rct.centery-bom_rct.centery)
+        dis2 = math.sqrt(dis[0]**2 + dis[1]**2)
+        if dis2 < 500:
+            avx, avy = vx, vy
+        else:
+            vctr = (dis[0] / dis2* math.sqrt(50), dis[1] / dis2 * math.sqrt(50))
+            avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+            vx, vy = vctr[0], vctr[1]
+        
         bom_img = bom_imgs[min(tmr//500, 9)]
         # bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
         bom_rct.move_ip(avx, avy)
