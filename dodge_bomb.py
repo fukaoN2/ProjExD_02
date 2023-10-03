@@ -34,6 +34,19 @@ def main():
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400) #こうかとんの初期座標を設定
+
+    #こうかとん画像向き別辞書
+    lib2 = {
+        (+5, 0): (pg.transform.flip(kk_img, True, False), 0),
+        (+5, -5): (pg.transform.flip(kk_img, True, False), +45),
+        (0, -5): (pg.transform.flip(kk_img, True, False), +90),
+        (-5, -5): (kk_img, -45),
+        (-5, 0): (kk_img, 0),
+        (-5, +5): (kk_img, +45),
+        (0, +5): (pg.transform.flip(kk_img, True, False), -90),
+        (+5, +5): (pg.transform.flip(kk_img, True, False), -45),
+    }
+
     """爆弾"""
     bom = pg.Surface((20, 20)) #練習1 爆弾surfaceを作成
     pg.draw.circle(bom, (255, 0, 0), (10, 10), 10)
@@ -59,14 +72,22 @@ def main():
         """こうかとん"""
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
+        kk_mv = kk_img
+
         for key, mv in lib.items():
             if key_lst[key]:
                 sum_mv[0] += mv[0] #練習3 横方向の合計移動量
                 sum_mv[1] += mv[1] #練習3 縦方向の合計移動量
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) #練習3 移動させる
+
+        for kk, mm in lib2.items():
+            if sum_mv[0] == kk[0] and sum_mv[1] == kk[1]:
+                kk_mv = pg.transform.rotozoom(mm[0], mm[1], 1.0) #追加1 画像指定
+        screen.blit(kk_mv, [kk_rct.x, kk_rct.y]) #追加1 表示
+
         if check_bound(kk_rct) != (True, True): #練習4 はみだし判定
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
-        screen.blit(kk_img, kk_rct) #練習3 表示させる
+        # screen.blit(kk_img, kk_rct) #練習3 表示させる
 
         """爆弾"""
         bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
