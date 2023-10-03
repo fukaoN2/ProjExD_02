@@ -35,7 +35,7 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400) #こうかとんの初期座標を設定
 
-    #こうかとん画像向き別辞書
+    #こうかとん画像向き別辞書   
     lib2 = {
         (+5, 0): (pg.transform.flip(kk_img, True, False), 0),
         (+5, -5): (pg.transform.flip(kk_img, True, False), +45),
@@ -58,6 +58,15 @@ def main():
 
     clock = pg.time.Clock()
     tmr = 0
+    
+    accs = [a for a in range(1, 11)]
+    bom_imgs = []
+    for r in range(1, 11):
+        bom_img = pg.Surface((20*r, 20*r), pg.SRCALPHA)
+        pg.draw.circle(bom_img, (255, 0, 0), (10*r, 10*r), 10*r)
+        bom_imgs.append(bom_img)
+
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -90,13 +99,17 @@ def main():
         # screen.blit(kk_img, kk_rct) #練習3 表示させる
 
         """爆弾"""
-        bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
         yoko, tate = check_bound(bom_rct)
         if not yoko: #練習4 横方向にはみ出たら
             vx *= -1
         if not tate: #練習4 縦方向にはみ出たら
             vy *= -1
-        screen.blit(bom, bom_rct) #練習1 Rectを使用してblitする
+        avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+        bom_img = bom_imgs[min(tmr//500, 9)]
+        # bom_rct.move_ip(vx, vy) #練習2 爆弾を動かす
+        bom_rct.move_ip(avx, avy)
+        # screen.blit(bom, bom_rct) #練習1 Rectを使用してblitする
+        screen.blit(bom_img, [bom_rct.x, bom_rct.y])
         pg.display.update()
         tmr += 1
         clock.tick(50)
